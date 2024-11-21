@@ -5,7 +5,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DBConnection extends SQLiteOpenHelper {
-    private static final String DATABASE_NAME = "mi_aplicacion.db";
+    private static final String DATABASE_NAME = "emprendedor.db";
     private static final int DATABASE_VERSION = 1;
 
     public DBConnection(Context context) {
@@ -16,7 +16,7 @@ public class DBConnection extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         // La creación de tablas sigue ocurriendo aquí.
         // Crear tabla de categoría.
-        db.execSQL("CREATE TABLE IF NOT EXISTS categoria (id INTEGER PRIMARY KEY AUTOINCREMENT, descripcion TEXT)");
+        db.execSQL("CREATE TABLE IF NOT EXISTS categoria (id INTEGER PRIMARY KEY AUTOINCREMENT, descripcion TEXT NOT NULL)");
 
         // Otras tablas que puedan ser necesarias pueden crearse aquí también.
         // ...

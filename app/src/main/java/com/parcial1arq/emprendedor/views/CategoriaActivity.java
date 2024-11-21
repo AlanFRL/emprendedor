@@ -1,72 +1,89 @@
 package com.parcial1arq.emprendedor.views;
 
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import com.parcial1arq.emprendedor.R;
-import com.parcial1arq.emprendedor.models.CategoriaModel;
-import com.parcial1arq.emprendedor.database.DBConnection;
+import com.parcial1arq.emprendedor.models.Categoria;
 import com.parcial1arq.emprendedor.controllers.CategoriaController;
 import java.util.List;
 
 public class CategoriaActivity extends AppCompatActivity {
+    private EditText txtDescripcionCategoria;
+    private Button btnGuardar, btnEditar, btnEliminar;
+    private ListView listaCategorias;
 
-    private EditText editTextCategoria;
-    private RecyclerView recyclerViewCategorias;
-    private CategoriaAdapter adapter;
     private CategoriaController controller;
+
+    // Variable para mantener la categoría seleccionada
+    private int categoriaSeleccionadaId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categoria);
 
-        editTextCategoria = findViewById(R.id.editTextCategoria);
-        Button btnAgregarCategoria = findViewById(R.id.btnAgregarCategoria);
-        recyclerViewCategorias = findViewById(R.id.recyclerViewCategorias);
+        // Vincular vistas
+        txtDescripcionCategoria = findViewById(R.id.txtDescripcionCategoria);
+        btnGuardar = findViewById(R.id.btnGuardarCategoria);
+        btnEditar = findViewById(R.id.btnEditarCategoria);
+        btnEliminar = findViewById(R.id.btnEliminarCategoria);
+        listaCategorias = findViewById(R.id.listaCategorias);
 
-        // Inicializar la conexión y el modelo
-        DBConnection dbConnection = new DBConnection(this);
-        CategoriaModel modelo = new CategoriaModel(dbConnection);
+        // Inicializar controlador
+        controller = new CategoriaController(this);
 
-        // Inicializar el controlador
-        controller = new CategoriaController(this, modelo);
+        // Configurar eventos
+        btnGuardar.setOnClickListener(v -> controller.guardarCategoria(txtDescripcionCategoria.getText().toString()));
+        btnEditar.setOnClickListener(v -> editarCategoria());
+        btnEliminar.setOnClickListener(v -> eliminarCategoria());
 
-        // Acción para agregar una nueva categoría
-        btnAgregarCategoria.setOnClickListener(v -> {
-            String descripcion = editTextCategoria.getText().toString();
-            if (!descripcion.isEmpty()) {
-                controller.agregarCategoria(descripcion);
-                editTextCategoria.setText("");
-            }
+        // Configurar listener para seleccionar una categoría en la lista
+        listaCategorias.setOnItemClickListener((parent, view, position, id) -> {
+            // Obtiene la categoría seleccionada
+            Categoria categoria = (Categoria) parent.getItemAtPosition(position);
+            categoriaSeleccionadaId = categoria.getId(); // Guarda el ID
+            txtDescripcionCategoria.setText(categoria.getDescripcion()); // Muestra en el EditText
         });
 
-        recyclerViewCategorias.setLayoutManager(new LinearLayoutManager(this));
+        // Cargar categorías
+        controller.cargarCategorias();
     }
 
-    // Actualizar la lista de categorías
-    public void actualizarListaCategorias(List<String> categorias) {
-        adapter = new CategoriaAdapter(categorias);
-        recyclerViewCategorias.setAdapter(adapter);
+    private void editarCategoria() {
+        String nuevaDescripcion = txtDescripcionCategoria.getText().toString();
+        if (categoriaSeleccionadaId == -1) {
+            mostrarMensaje("Debe seleccionar una categoría para editar");
+            return;
+        }
+        if (nuevaDescripcion.isEmpty()) {
+            mostrarMensaje("La descripción no puede estar vacía");
+            return;
+        }
+        controller.editarCategoria(categoriaSeleccionadaId, nuevaDescripcion);
     }
 
-    // Mostrar el diálogo para editar una categoría
-    public void mostrarDialogoEditarCategoria(String descripcionVieja) {
-        editTextCategoria.setText(descripcionVieja);
-        findViewById(R.id.btnAgregarCategoria).setOnClickListener(v -> {
-            String nuevaDescripcion = editTextCategoria.getText().toString();
-            if (!nuevaDescripcion.isEmpty()) {
-                controller.editarCategoria(descripcionVieja, nuevaDescripcion);
-                editTextCategoria.setText("");
-            }
-        });
+    private void eliminarCategoria() {
+        if (categoriaSeleccionadaId == -1) {
+            mostrarMensaje("Debe seleccionar una categoría para eliminar");
+            return;
+        }
+        controller.eliminarCategoria(categoriaSeleccionadaId);
+        categoriaSeleccionadaId = -1; // Reinicia la selección
+        txtDescripcionCategoria.setText(""); // Limpia el campo de texto
     }
 
-    // Eliminar una categoría seleccionada
-    public void eliminarCategoriaSeleccionada(String descripcion) {
-        controller.eliminarCategoria(descripcion);
+    public void mostrarCategorias(List<Categoria> categorias) {
+        ArrayAdapter<Categoria> adapter = new ArrayAdapter<>(
+                this, android.R.layout.simple_list_item_1, categorias);
+        listaCategorias.setAdapter(adapter);
+    }
+
+    public void mostrarMensaje(String mensaje) {
+        Toast.makeText(this, mensaje, Toast.LENGTH_SHORT).show();
     }
 }

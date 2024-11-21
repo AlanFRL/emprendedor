@@ -1,30 +1,59 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp">
 
-    <EditText
-        android:id="@+id/editTextCategoria"
+    <!-- Encabezado del caso de uso -->
+    <TextView
+        android:id="@+id/txtTitulo"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:hint="@string/hint_categoria"
-        android:textColor="@android:color/black"
-        android:inputType="text"
-        android:importantForAutofill="yes"
-        android:layout_marginEnd="16dp" />
+        android:layout_height="wrap_content"
+        android:text="Gestión de Categorías"
+        android:textSize="24sp"
+        android:gravity="center"
+        android:padding="8dp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/txtDescripcionCategoria"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Descripción de la categoría"
+        android:minHeight="48dp" />
 
     <Button
-        android:id="@+id/btnAgregarCategoria"
+        android:id="@+id/btnGuardarCategoria"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/btn_agregar_categoria" />
+        android:text="Guardar" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewCategorias"
+    <Button
+        android:id="@+id/btnEditarCategoria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Editar" />
+
+    <Button
+        android:id="@+id/btnEliminarCategoria"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Eliminar" />
+
+    <!-- Subtítulo para la lista -->
+    <TextView
+        android:id="@+id/txtSubtitulo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp" />
+        android:text="Lista de Categorías"
+        android:textSize="18sp"
+        android:gravity="center"
+        android:padding="8dp"
+        android:textStyle="italic" />
+
+    <ListView
+        android:id="@+id/listaCategorias"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

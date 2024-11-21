@@ -26,4 +26,11 @@ public class Categoria {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+
+    // Sobrescribir el método toString para mostrar la descripción
+    @Override
+    public String toString() {
+        return descripcion; // Muestra solo la descripción de la categoría
+    }
+
 }
