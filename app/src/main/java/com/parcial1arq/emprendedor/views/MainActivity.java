@@ -25,7 +25,33 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 // Iniciar la actividad de Categoría
-                Intent intent = new Intent(MainActivity.this, CategoriaActivity.class);
+                Intent intent = new Intent(MainActivity.this, CategoriaViewActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // Vincula el botón de productos
+        Button btnProductos = findViewById(R.id.btnProductos);
+
+        // Configura el listener para ir a la pantalla de gestionar productos
+        btnProductos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Iniciar la actividad de productos
+                Intent intent = new Intent(MainActivity.this, ProductoViewActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        // Vincula el botón de catálogos
+        Button btnCatalogos = findViewById(R.id.btnCatalogos);
+
+        // Configura el listener para ir a la pantalla de gestionar productos
+        btnCatalogos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Iniciar la actividad de productos
+                Intent intent = new Intent(MainActivity.this, CatalogoViewActivity.class);
                 startActivity(intent);
             }
         });

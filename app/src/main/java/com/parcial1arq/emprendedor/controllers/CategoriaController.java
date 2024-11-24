@@ -1,52 +1,52 @@
 package com.parcial1arq.emprendedor.controllers;
 
-import android.content.Context;
-import com.parcial1arq.emprendedor.database.DBConnection;
-import com.parcial1arq.emprendedor.models.Categoria;
 import com.parcial1arq.emprendedor.models.CategoriaModel;
-import com.parcial1arq.emprendedor.views.CategoriaActivity;
+import com.parcial1arq.emprendedor.views.CategoriaViewActivity;
 import java.util.List;
 
 public class CategoriaController {
-    private CategoriaModel categoriaModel;
-    private CategoriaActivity categoriaView;
+    private CategoriaModel model;
+    private CategoriaViewActivity view;
 
-
-
-    public CategoriaController(CategoriaActivity view) {
-        this.categoriaView = view;
-        //DBConnection dbConnection = new DBConnection((Context) view);
-        this.categoriaModel = new CategoriaModel(view);
+    public CategoriaController(CategoriaViewActivity view) {
+        this.view = view;
+        this.model = new CategoriaModel(view);
     }
 
     // Método para agregar categoría
     public void guardarCategoria(String descripcion) {
-        if (descripcion.isEmpty()) {
-            categoriaView.mostrarMensaje("La descripción no puede estar vacía");
-            return;
+        try {
+            model.agregarCategoria(descripcion);
+            view.mostrarMensaje("Categoría guardada con éxito.");
+            cargarCategorias();
+        } catch (Exception e) {
+            view.mostrarMensaje(e.getMessage());
         }
-        categoriaModel.agregarCategoria(descripcion);
-        categoriaView.mostrarMensaje("Categoría guardada");
-        cargarCategorias();
     }
 
     // Método para cargar las categorías y actualizar la vista
     public void cargarCategorias() {
-        List<Categoria> categorias = categoriaModel.obtenerCategorias();
-        categoriaView.mostrarCategorias(categorias);
+        List<String[]> categorias = model.obtenerCategorias();
+        // Convertimos las categorías a un formato que la vista pueda manejar
+        String[] descripciones = categorias.stream().map(c -> c[1]).toArray(String[]::new);
+        view.mostrarCategorias(descripciones, categorias);
     }
 
     // Método para editar categoría
-    public void editarCategoria(int id, String nuevaDescripcion) {
-        categoriaModel.actualizarCategoria(id, nuevaDescripcion);
-        categoriaView.mostrarMensaje("Categoría actualizada");
-        cargarCategorias();
+    public void actualizarCategoria(int id, String descripcion) {
+        try {
+            model.actualizarCategoria(id, descripcion);
+            view.mostrarMensaje("Categoría actualizada con éxito.");
+            cargarCategorias();
+        } catch (Exception e) {
+            view.mostrarMensaje(e.getMessage());
+        }
     }
 
     // Método para eliminar categoría
     public void eliminarCategoria(int id) {
-        categoriaModel.eliminarCategoria(id);
-        categoriaView.mostrarMensaje("Categoría eliminada");
+        model.eliminarCategoria(id);
+        view.mostrarMensaje("Categoría eliminada con éxito.");
         cargarCategorias();
     }
 }

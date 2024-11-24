@@ -9,23 +9,29 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Encabezado del caso de uso -->
-        <TextView
-            android:id="@+id/txtTitulo"
+        <EditText
+            android:id="@+id/txtDescripcionCatalogo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Gestión de Categorías"
-            android:textSize="24sp"
+            android:hint="Descripción del catálogo"
+            android:minHeight="48dp" />
+
+        <!-- Subtítulo para la lista -->
+        <TextView
+            android:id="@+id/txtSubtitulo2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Lista de Productos"
+            android:textSize="18sp"
             android:gravity="center"
             android:padding="8dp"
-            android:textStyle="bold" />
+            android:textStyle="italic" />
 
-        <EditText
-            android:id="@+id/txtDescripcion"
+        <ListView
+            android:id="@+id/listaProductos"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Descripción de la categoría"
-            android:minHeight="48dp" />
+            android:layout_height="150dp"
+            android:choiceMode="multipleChoice" />
 
         <!-- Botones en una fila -->
         <LinearLayout
@@ -36,42 +42,42 @@
             android:layout_marginTop="16dp">
 
             <Button
-                android:id="@+id/btnGuardarCategoria"
+                android:id="@+id/btnGuardarCatalogo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Guardar"
                 android:layout_marginEnd="16dp" />
 
             <Button
-                android:id="@+id/btnEditarCategoria"
+                android:id="@+id/btnEditarCatalogo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Editar"
                 android:layout_marginEnd="16dp" />
 
             <Button
-                android:id="@+id/btnEliminarCategoria"
+                android:id="@+id/btnEliminarCatalogo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Eliminar" />
         </LinearLayout>
 
-
-
-        <!-- Subtítulo para la lista de categorías-->
+        <!-- Subtítulo para la lista -->
         <TextView
             android:id="@+id/txtSubtitulo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Lista de Categorías"
+            android:text="Lista de Catálogos"
             android:textSize="18sp"
             android:gravity="center"
             android:padding="8dp"
             android:textStyle="italic" />
 
         <ListView
-            android:id="@+id/listaCategorias"
+            android:id="@+id/listaCatalogos"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent" />
     </LinearLayout>
+
+
 </ScrollView>
